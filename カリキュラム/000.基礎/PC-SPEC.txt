@@ -1,0 +1,11 @@
+・OS
+Mac OS X EI Capitan（10.11.6）
+
+・CPU
+2.6GHz Intel Core i5
+
+・メモリ
+16GB
+
+・HDD
+256GB
