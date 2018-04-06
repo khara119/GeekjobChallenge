@@ -1,0 +1,9 @@
+# sshしている場合
+exit
+
+# ファイル送受信用のコマンドでリモートログイン
+scp root@desktop-h08rlfm:/root/デスクトップ/ko-su ~/Desktop
+
+# パスワードを求められたとき
+123456
+

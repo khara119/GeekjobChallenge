@@ -1,0 +1,7 @@
+1. 自身のPCから画像をおくる
+scp test.png root@desktop-h08rlfm:/root/デスクトップ
+
+2. 自己紹介を書く
+vim introduction.txt
+
+3. Windowsのリモートデスクトップを使う。
