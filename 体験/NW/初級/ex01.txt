@@ -1,0 +1,23 @@
+# 1. /root/Desktop/ 以下に作成するので、そこに移動する
+cd /root/Desktop
+
+# 2. Ecsaite/を作成する
+mkdir Ecsaite
+
+# 3. Ecsaite/に移動する
+cd Ecsaite
+
+# 4. Ecsaite/以下にDB、PHP、configを作成する
+mkdir DB PHP config
+# mkdirを3回に分けても可
+
+# 5. DB/に移動する
+cd DB
+
+# 6. oraceを作成する
+mkdir orace
+
+# ※1の後に下記方法でも可（手順2-6の代わり）
+mkdir -p Ecsaito/DB/orace
+cd Ecsaito
+mkdir PHP config
