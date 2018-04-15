@@ -1,1 +1,5 @@
 *.class
+*.aux
+*.dvi
+*.log
+*.tex
