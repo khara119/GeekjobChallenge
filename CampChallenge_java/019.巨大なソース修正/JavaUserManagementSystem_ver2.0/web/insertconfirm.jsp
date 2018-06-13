@@ -17,7 +17,9 @@
         <title>JUMS登録確認画面</title>
     </head>
     <body>
-    <% if(chkList.size()==0){ %>
+        <% if(request.getParameter("pt") == null) { %>
+        <h1>不正なアクセスです</h1>
+    <% } else if(chkList.size()==0){ %>
         <h1>登録確認</h1>
         名前:<%= udb.getName()%><br>
         生年月日:<%= udb.getYear()+"年"+udb.getMonth()+"月"+udb.getDay()+"日"%><br>
@@ -26,6 +28,7 @@
         自己紹介:<%= udb.getComment()%><br>
         上記の内容で登録します。よろしいですか？
         <form action="insertresult" method="POST">
+            <input type="hidden" name="pt" value="<%= request.getParameter("pt")%>">
             <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
             <input type="submit" name="yes" value="はい">
         </form>
@@ -34,7 +37,9 @@
         <%=jh.chkinput(chkList) %>
     <% } %>
         <form action="insert" method="POST">
+            <% if (request.getParameter("pt") != null) { %>
             <input type="submit" name="no" value="登録画面に戻る">
+            <% } %>
             <input type="hidden" name="mode" value="REINPUT">
         </form>
         <%=jh.home()%>

@@ -29,19 +29,19 @@
         <select name="year">
             <option value="">----</option>
             <% for(int i=1950; i<=2010; i++){ %>
-            <option value="<%=i%>" <% if(reinput && udb.getYear() == i){out.print("selected = \"selected\"");}%>><%=i%></option>
+            <option value="<%=i%>" <% if(reinput && udb.getYear() == i){out.print("selected");}%>><%=i%></option>
             <% } %>
         </select>年
         <select name="month">
             <option value="">--</option>
             <% for(int i = 1; i<=12; i++){ %>
-            <option value="<%=i%>" <% if(reinput && udb.getMonth() == i){out.print("selected = \"selected\"");}%>><%=i%></option>
+            <option value="<%=i%>" <% if(reinput && udb.getMonth() == i){out.print("selected");}%>><%=i%></option>
             <% } %>
         </select>月
         <select name="day">
             <option value="">--</option>
             <% for(int i = 1; i<=31; i++){ %>
-            <option value="<%=i%>"<% if(reinput && udb.getDay() == i){out.print("selected = \"selected\"");}%>><%=i%></option>
+            <option value="<%=i%>"<% if(reinput && udb.getDay() == i){out.print("selected");}%>><%=i%></option>
             <% } %>
         </select>日
         <br><br>
@@ -49,7 +49,7 @@
         種別:
         <br>
             <% for(int i = 1; i<=3; i++){ %>
-            <input type="radio" name="type" value="<%=i%>"<%if(reinput && udb.getType() == i){out.print("checked = \"checked\"");}%>><%=jh.exTypenum(i)%><br>
+            <input type="radio" name="type" value="<%=i%>"<%if(reinput && udb.getType() == i){out.print("checked");}%>><%=jh.exTypenum(i)%><br>
             <% } %>
         <br>
 
@@ -61,6 +61,7 @@
         <br>
         <textarea name="comment" rows=10 cols=50 style="resize:none" wrap="hard"><% if(reinput){out.print(udb.getComment());}%></textarea><br><br>
 
+        <input type="hidden" name="pt" value="page_transition">
         <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
         <input type="submit" name="btnSubmit" value="確認画面へ">
     </form>
