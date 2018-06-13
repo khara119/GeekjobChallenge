@@ -34,6 +34,7 @@ public class InsertConfirm extends HttpServlet {
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
             
             //アクセスルートチェック
+			// セッションで行うものではない気がするが。。。
             String accesschk = request.getParameter("ac");
             if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");

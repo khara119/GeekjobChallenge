@@ -59,8 +59,8 @@ public class JumsHelper {
     
     /**
      * 種別は数字で取り扱っているので画面に表示するときは日本語に変換
-     * @param i
-     * @return 
+     * @param i 種別番号
+     * @return 種別番号に対応した文字列
      */
     public String exTypenum(int i){
         switch(i){

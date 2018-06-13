@@ -10,7 +10,8 @@
         reinput = true;
         udb = (UserDataBeans)hs.getAttribute("udb");
     }
-
+	// 本来ではあればここでelse-ifでセッションに保存されている情報を
+	// 取得する処理が必要
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,6 +22,7 @@
     </head>
     <body>
     <form action="insertconfirm" method="POST">
+		<!-- reinputの判断ではなく、udbがあるかの方が理想（セッション情報を使う場合もあるので。） -->
         名前:
         <input type="text" name="name" value="<% if(reinput){out.print(udb.getName());}%>">
         <br><br>

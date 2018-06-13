@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!-- データベース初期化のために使うだけ。本来の課題では無いのが理想 -->
+<!-- データベース初期化のために使うだけ。本来の課題ではない -->
 <%@page import="base.DBManager"%>
 <!DOCTYPE html>
 <html lang="ja">
@@ -10,6 +10,7 @@
 <body>
     <%
         // 初期化パラメータが付与されていればデータベースを初期化する
+		// 本来の課題ではない
         String param = request.getParameter("init");
         if (param != null && param.equals("init")) {
             base.DBManager.initDatabase();
