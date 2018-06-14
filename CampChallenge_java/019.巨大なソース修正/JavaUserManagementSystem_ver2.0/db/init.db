@@ -1,0 +1,2 @@
+drop table if exists user_t;
+create table user_t(userID int not null auto_increment, name varchar(255), birthday date, tell varchar(255), type int, comment text, newDate datetime, primary key (userID));
