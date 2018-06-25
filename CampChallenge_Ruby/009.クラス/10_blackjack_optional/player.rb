@@ -2,8 +2,12 @@ require './user'
 
 class Player < User
 
+	@@total_players = 0
+
 	def initialize(limit)
 		super(limit)
+
+		@@total_players += 1
 
 		##########
 		# 名前作成
@@ -64,17 +68,25 @@ class Player < User
 		return @bet if tip == -1
 
 		@bet = tip
+		@tip -= tip
+		@balance -= @bet
 	end
 
 	def receive_devidend(devidend)
-		puts name + 'さんは負けました(' + tip.to_s + ')' if devidend == 0
-		puts name + 'さんはドローです(' + (tip + devidend).to_s + ')' if devidend == @bet
-		puts name + 'さんは勝ちました(' + tip.to_s + ' → ' + (tip + devidend).to_s + ')' if devidend > @bet
+		print name + 'さんは負けました(' + (tip + bet).to_s + ' → ' + tip.to_s + ') ' if devidend == 0
+		print name + 'さんはドローです(' + (tip + devidend).to_s + ') ' if devidend == @bet
+		print name + 'さんは勝ちました(' + (tip + bet).to_s + ' → ' + (tip + devidend).to_s + ') ' if devidend > @bet
 
 		@tip += devidend
+		@balance += devidend
+		puts '計' + game_count.to_s + '回参加、総収支: ' + balance.to_s 
 	end
 
 	def stop?
-		return tip == 0 || tip > 100000
+		return tip <= @@minimum_bet
+	end
+
+	def self.total_players
+		return @@total_players
 	end
 end

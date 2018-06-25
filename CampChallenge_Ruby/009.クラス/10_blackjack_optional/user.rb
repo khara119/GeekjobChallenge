@@ -3,6 +3,9 @@ class User
 	@@cards = []
 	@@hide_card = 0
 
+	# 最小ベット数
+	@@minimum_bet = 10
+
 	# 初期化処理
 	def initialize(limit)
 		# 手札
@@ -11,6 +14,12 @@ class User
 		# ヒット基準
 		# 継承先で使用する
 		@limit = limit
+
+		# 総収支
+		@balance = 0
+
+		# 参加ゲーム数
+		@game_count = 0
 
 		# スタンドフラグ
 		@is_stand = false
@@ -26,6 +35,7 @@ class User
 		# 初期化フラグがあれば初期化する
 		# （ゲーム開始時）
 		if flag
+			@game_count += 1
 			@my_cards = []
 			@is_stand = false
 		end
@@ -72,5 +82,13 @@ class User
 
 	def blackjack?
 		return total == 21 && @my_cards.length == 2
+	end
+
+	def game_count
+		return @game_count
+	end
+
+	def balance
+		return @balance
 	end
 end

@@ -2,25 +2,31 @@ require './dealer'
 require './player'
 
 STDOUT.sync = true
-TIME=1
+TIME=3
 
 dealer = Dealer.new
-players = Array.new(5){ Player.new(0.6) }
+players = Array.new(5){ Player.new(rand(0.2..0.8)) }
 
 puts ''
 sleep(TIME)
 
 # 全プレイヤーがやめたら終わり
 while !players.empty?
-	puts "##########################"
-	puts "# 新しいゲームを始めます #"
-	puts "##########################"
+	puts '総参加者数: ' + Player.total_players.to_s + '人'
+	puts ''
+	sleep(TIME)
+
+	puts "#############################"
+	puts "# " + (dealer.game_count + 1).to_s.rjust(3) + "回目のゲームを始めます #"
+	puts "#############################"
+
+	sleep(TIME)
 
 	# 賭け金を設定
 	players.each { |player|
-		min = player.tip.fdiv(10).ceil
+		min = player.tip < 100 ? 10 : player.tip.fdiv(10).ceil
 		max = player.tip
-		bet = rand(max - min) + min
+		bet = (rand(max - min) + min).ceil
 		player.bet(bet)
 
 		puts player.name + 'さんが' + bet.to_s + '枚ベットしました'
@@ -45,15 +51,27 @@ while !players.empty?
 
 	puts 'Dealer: ' + dealer.open
 
+	puts ''
+	sleep(TIME)
+
+	survive_players = players.clone;
+
 	while hit_count > 0
 		hit_count = 0
 
 		# 各プレイヤーのターン
-		players.each { |player|
+		survive_players.each { |player|
 			if player.hit?
 				player.add_card(dealer.hit)
 				puts player.name + 'さんがヒットしました'
 				puts player.open
+
+				if player.total > 21
+					puts player.name + 'さんがバーストしました'
+					survive_players.delete(player)
+				end
+
+				sleep(TIME)
 			end
 
 			hit_count += 1 if player.hit?
@@ -66,13 +84,19 @@ while !players.empty?
 		puts player.name + ': ' + player.open + '(' + player.total.to_s + ')'
 	}
 
+	sleep(TIME)
+	puts ''
+
 	puts 'ディーラー: ' + dealer.open(false) + '(' + dealer.total.to_s + ')'
+
+	sleep(TIME)
 
 	# ディーラーのターン
 	while dealer.hit?
 		dealer.add_card(dealer.hit)
 		puts 'ディーラーがヒットしました'
 		puts 'ディーラー: ' + dealer.open(false) + '(' + dealer.total.to_s + ')'
+		sleep(TIME)
 	end
 
 	puts ''
@@ -86,10 +110,27 @@ while !players.empty?
 			dealer.devidend(player.bet, player.total, player.blackjack?))
 	}
 
+	sleep(TIME)
+
+	puts ''
+	puts 'ディーラーの総収支: ' + dealer.balance.to_s
+
+	sleep(TIME)
+
+	puts ''
+
 	current_players = players.length
 	players.delete_if { |player| player.stop? }
-	puts (current_players - players.length).to_s + '人が抜けました' if current_players != players.length
+	out_players = current_players - players.length
+	puts out_players.to_s + '人が抜けました' if out_players > 0
 	puts ''
+
+	sleep(TIME)
+
+	out_players.times { |i|
+		players << Player.new(rand(0.2..0.8))
+	}
+
 	sleep(TIME)
 end
 
