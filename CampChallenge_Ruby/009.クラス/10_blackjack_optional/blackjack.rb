@@ -1,6 +1,7 @@
 require './dealer'
 require './player'
 
+# coding:utf-8
 STDOUT.sync = true
 TIME=3
 
@@ -37,13 +38,10 @@ while !players.empty?
 	puts ''
 	sleep(TIME)
 
-	hit_count = 0
-
 	# プレイヤーにカードを配る
 	players.each { |player|
 		player.add_card(dealer.deal, true)
 		puts player.name + ': ' + player.open
-		hit_count += 1 if player.hit?
 	}
 
 	# 自分にカードを配る
@@ -55,26 +53,29 @@ while !players.empty?
 	sleep(TIME)
 
 	survive_players = players.clone;
+	hit_players = players.clone;
 
-	while hit_count > 0
-		hit_count = 0
-
+	while hit_players.length > 0
 		# 各プレイヤーのターン
-		survive_players.each { |player|
-			if player.hit?
+		hit_players.each { |player|
+			if player.hit?(dealer.first_open_card)
 				player.add_card(dealer.hit)
+
 				puts player.name + 'さんがヒットしました'
 				puts player.open
 
 				if player.total > 21
 					puts player.name + 'さんがバーストしました'
 					survive_players.delete(player)
+					hit_players.delete(player)
 				end
-
-				sleep(TIME)
+			else
+				puts player.name + 'さんがスタンドしました'
+				hit_players.delete(player)
 			end
 
-			hit_count += 1 if player.hit?
+			puts ''
+			sleep(TIME)
 		}
 	end
 
@@ -102,6 +103,15 @@ while !players.empty?
 	puts ''
 	sleep(TIME)
 	puts 'ディーラーのターンが終わりました。'
+
+	players.each { |player|
+		player.update_dealer_info(
+			dealer.total,
+			dealer.first_open_card,
+			dealer.blackjack?
+		)
+	}
+
 	puts '精算します'
 
 	# 精算

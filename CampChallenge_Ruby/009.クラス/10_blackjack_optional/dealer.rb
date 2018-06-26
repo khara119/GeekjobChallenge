@@ -1,5 +1,7 @@
 require './user'
 
+STDOUT.sync = true
+
 class Dealer < User
 	def initialize
 		super(16)
@@ -24,13 +26,17 @@ class Dealer < User
 	end
 
 	def add_card(card, flag=false)
-		@@hide_card = card[0] if flag
+		if flag
+			@hide_card = card[0]
+			@first_open_card = card[1]
+		end
+
 		super(card, flag)
 	end
 
 	def open(flag = true)
 		# 通常時は伏せカードを隠して表示する
-		return Array['?', @my_cards[1]].to_s if flag
+		return Array['?', @first_open_card].to_s if flag
 
 		super()
 	end
@@ -70,5 +76,9 @@ class Dealer < User
 		# その他はプレイヤーの負け
 		@balance += bet
 		return 0
+	end
+
+	def first_open_card
+		return @first_open_card
 	end
 end
