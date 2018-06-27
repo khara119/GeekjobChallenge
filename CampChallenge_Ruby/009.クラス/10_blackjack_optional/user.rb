@@ -76,7 +76,6 @@ class User
 
 	# 手札を公開する
 	def open
-		@my_cards.sort!
 		return @my_cards.to_s
 	end
 

@@ -25,8 +25,11 @@ while !players.empty?
 
 	# 賭け金を設定
 	players.each { |player|
-		min = player.tip < 100 ? 10 : player.tip.fdiv(10).ceil
+		min = 10 ** (Math.log10(player.tip).to_i - 2)
+		min = 10 if min < 10
+
 		max = player.tip
+
 		bet = (rand(max - min) + min).ceil
 		player.bet(bet)
 
@@ -79,7 +82,7 @@ while !players.empty?
 		}
 	end
 
-	puts '全プレイヤーがスタンドしました'
+	puts '全プレイヤーがスタンドorバーストしました'
 
 	players.each { |player|
 		puts player.name + ': ' + player.open + '(' + player.total.to_s + ')'
@@ -93,7 +96,7 @@ while !players.empty?
 	sleep(TIME)
 
 	# ディーラーのターン
-	while dealer.hit?
+	while dealer.hit? && survive_players.length > 0
 		dealer.add_card(dealer.hit)
 		puts 'ディーラーがヒットしました'
 		puts 'ディーラー: ' + dealer.open(false) + '(' + dealer.total.to_s + ')'

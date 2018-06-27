@@ -1,4 +1,5 @@
 require './user'
+require './define'
 
 STDOUT.sync = true
 
@@ -15,26 +16,13 @@ class Player < User
 		# 名前作成
 		##########
 
-		vowel = 'aiueo'
-		cons = ' kstnhmyrwgzdb'
-
-		@name = ''
-		4.times { |i|
-			@name += cons[rand(cons.length)]
-			@name += vowel[rand(vowel.length)]
-		}
-
-		# 正しいローマ字に置換して頭文字を大文字にする
-		@name = @name.gsub(/ /, '').gsub(/si/, 'shi').gsub(/ti/, 'chi')
-			.gsub(/tu/, 'tsu').gsub(/hu/, 'fu').gsub(/y([ie])/, '\1')
-			.gsub(/w([iueo])/, '\1').gsub(/zi/, 'ji').gsub(/di/, 'ji')
-			.gsub(/du/, 'zu').capitalize
+		@name = Define.name
 
 		##########
 		# チップ
 		##########
 
-		@tip = rand(9001) + 1000
+		@tip = rand(900001) + 1000
 
 		puts @name + 'さんがチップ' + @tip.to_s + '枚で参加しました。'
 
@@ -47,12 +35,31 @@ class Player < User
 			i = i + 1
 			@dealer_info[i] = {}
 			(17..21).each { |j|
-				@dealer_info[i][j] = 100
+				@dealer_info[i][j] = 0
 			}
 
-			@dealer_info[i]["BJ"] = 100
-			@dealer_info[i]["BURST"] = 100
+			@dealer_info[i]["BJ"] = 0
+			@dealer_info[i]["BURST"] = 0
 		}
+
+		virtual_dealer = Dealer.new
+		10000.times { |i|
+			virtual_dealer.shuffle
+			virtual_dealer.add_card(virtual_dealer.deal, true)
+			while virtual_dealer.hit?
+				virtual_dealer.add_card(virtual_dealer.hit)
+			end
+
+			dealer_total = virtual_dealer.total
+			dealer_total = "BURST" if dealer_total > 21
+			dealer_total = "BJ" if virtual_dealer.blackjack?
+
+			@dealer_info[virtual_dealer.first_open_card][dealer_total] += 1
+		}
+
+
+		@burst_rate_weight = rand(1.0)
+		@win_rate_weight = 1 - @burst_rate_weight
 	end
 
 	def hit?(dealer_open_card)
@@ -61,7 +68,6 @@ class Player < User
 
 		# ブラックジャックになっていたらスタンド
 		if total == 21
-			puts '最大数なのでスタンド'
 			@is_stand = true
 			return false
 		end
@@ -69,7 +75,6 @@ class Player < User
 		# 11以下であれば何を引いても大丈夫なので
 		# 必ずヒットとする
 		if total <= 11
-			puts '必ずバーストしないのでヒット'
 			return true
 		end
 
@@ -95,15 +100,12 @@ class Player < User
 		}
 
 		win_rate_count += @dealer_info[dealer_open_card]["BURST"]
+		win_rate = win_rate_count.fdiv(rate_count)
 
-		rate = win_rate_count.fdiv(rate_count)
-
-		hit_rate = 1 - (burst_rate * rate)
-		hit_rate = 1 - burst_rate if rate.nan?
-
-		puts 'バースト確率: ' + burst_rate.to_s
-		puts '勝率: ' + rate.to_s
-		puts 'ヒット率: ' + hit_rate.to_s
+		burst_rate_weight = 0.4
+		win_rate_weight = 0.6
+		hit_rate = 1 - (burst_rate * @burst_rate_weight + win_rate * @win_rate_weight)
+		hit_rate = 1 - burst_rate if win_rate.nan?
 
 		# スタンド判定を更新
 		@is_stand = hit_rate < @limit
@@ -137,7 +139,7 @@ class Player < User
 	end
 
 	def stop?
-		return tip <= @@minimum_bet
+		return tip < @@minimum_bet
 	end
 
 	def self.total_players
