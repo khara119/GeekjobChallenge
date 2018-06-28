@@ -1,0 +1,28 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Other HTML Tags</title>
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function(evt) {
+			var progress = document.getElementById('progress');
+			var date = new Date();
+			var timeOfDay = date.getHours() * 60 * 60 +
+				date.getMinutes() * 60 + date.getSeconds();
+			progress.value = timeOfDay;
+		});
+
+		function updateInput(value) {
+			console.log(value)
+			var meter = document.getElementById('meter');
+			meter.value = Number(value) / 1000;
+		}
+	</script>
+</head>
+<body>
+	プログレスバー<br>
+	時間経過：<progress id="progress" max="86400">プログレスバーが見れないブラウザです</progress><br><br>
+	メーター<br>
+	ディスク容量：<meter id="meter" low="0.6" high="0.9" optimum="0.3">メーターが見れないブラウザです</meter>
+	<input id="input" type="number" value="0" style="width:100px;" onchange="updateInput(this.value)">GB/1TB
+</body>
+</html>
