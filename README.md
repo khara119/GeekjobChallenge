@@ -74,7 +74,7 @@
 
 </details>
 
-<detalis open>
+<details open>
 <summary>未提出</summary>
 
 | 分類 | 課題数 | 提出数 | 最終提出日 |
