@@ -1,0 +1,18 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Input Form</title>
+</head>
+<body>
+	<% if @is_saved %>
+		<p>保存しました</p>
+	<% end %>
+	<form action='/save' method='post'>
+		名前: <input type='text' name='name' value='<%= @name %>'><br>
+		性別: <input type='radio' name='gender' value='0' <%= @gender.to_i==0 ? 'checked' : '' %>>男
+			  <input type='radio' name='gender' value='1' <%= @gender.to_i==1 ? 'checked' : '' %>>女<br>
+		趣味: <textarea name='hobby'><%= @hobby %></textarea><br>
+		<input type='submit' value='保存'>
+	</form>
+</body>
+</html>
