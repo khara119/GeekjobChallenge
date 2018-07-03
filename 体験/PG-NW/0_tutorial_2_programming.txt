@@ -1,0 +1,29 @@
+手順1.
+　windows上でAtomを開き、新規ファイルを作成します。
+　※保存場所は手順4で指定されるので今は保存しなくて大丈夫です。
+
+手順2.
+　（コピーだけなので省略）
+
+手順3.
+　以下のHTMLになります。
+-----
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>hello</title>
+</head>
+<body>
+<!--ここから-->
+<h1>"konnitiha"</h1>
+<!--ここまで-->
+</body>
+</html>
+
+-----
+
+手順4.
+　Ctrl+Shift+s（もしくはFile→Save As）でDesktopに「hello.html」というファイル名で保存します。
+　保存できたらデスクトップのhello.htmlを右クリックしてプログラムを開く→Google Chromeで開いて確認します。
+　（ファイルをGoogle Chromeのタブ欄にドラッグ＆ドロップでもいけます）
