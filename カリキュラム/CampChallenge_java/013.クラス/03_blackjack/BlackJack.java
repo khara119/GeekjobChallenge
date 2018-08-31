@@ -27,6 +27,14 @@ public class BlackJack {
       dealer_total = -1;
     }
 
+    if (user.isBlackjack()) {
+      user_total = 22;
+    }
+
+    if (dealer.isBlackjack()) {
+      dealer_total = 22;
+    }
+
     if (user_total < dealer_total) {
       System.out.println("User LOSE");
     } else if (user_total > dealer_total) {
