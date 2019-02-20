@@ -1,8 +1,10 @@
 # お知らせ
 
+<details open>
+<summary>2019年</summary>
 - 2019-02-20
 	- 体験課題（Java）更新に伴い、旧版のディレクトリの名称変更しました。
-
+</details>
 <details>
 <summary>2018年</summary>
 - 2018-08-03
