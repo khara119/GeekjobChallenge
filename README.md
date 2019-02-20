@@ -97,7 +97,7 @@
 
 </details>
 
-# カリキュラム（PHP）
+## カリキュラム（PHP）
 
 <details>
 <summary>提出済み</summary>
